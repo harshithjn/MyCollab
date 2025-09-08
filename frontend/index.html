@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCollab - Collaborative Code Editor</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">MyCollab</h1>
+                <div class="header-controls">
+                    <div class="language-selector">
+                        <label for="language">Language:</label>
+                        <select id="language" onchange="changeLanguage()">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="java">Java</option>
+                            <option value="typescript">TypeScript</option>
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="json">JSON</option>
+                        </select>
+                    </div>
+                    <div class="user-info">
+                        <input type="text" id="username" placeholder="Enter your name" value="Anonymous">
+                        <button id="connectBtn" onclick="connectToDocument()">Connect</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Editor Panel -->
+            <div class="editor-panel">
+                <div class="editor-header">
+                    <div class="document-info">
+                        <span id="docId">Document ID: Not connected</span>
+                        <span id="version">Version: 0</span>
+                    </div>
+                    <div class="editor-controls">
+                        <button id="newDocBtn" onclick="createNewDocument()">New Document</button>
+                        <button id="shareBtn" onclick="shareDocument()">Share</button>
+                    </div>
+                </div>
+                <div id="editor" class="editor"></div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Users Panel -->
+                <div class="users-panel">
+                    <h3>Collaborators</h3>
+                    <div id="usersList" class="users-list">
+                        <div class="no-users">No users connected</div>
+                    </div>
+                </div>
+
+                <!-- Chat Panel -->
+                <div class="chat-panel">
+                    <h3>Chat</h3>
+                    <div id="chatMessages" class="chat-messages"></div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="handleChatKeyPress(event)">
+                        <button onclick="sendChatMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-left">
+                <span id="connectionStatus" class="status-disconnected">Disconnected</span>
+                <span id="userCount">0 users</span>
+            </div>
+            <div class="status-right">
+                <span id="cursorPosition">Line 1, Column 1</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeShareModal()">&times;</span>
+            <h2>Share Document</h2>
+            <p>Share this link with others to collaborate:</p>
+            <input type="text" id="shareUrl" readonly>
+            <button onclick="copyShareUrl()">Copy Link</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>Connecting...</p>
+    </div>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
